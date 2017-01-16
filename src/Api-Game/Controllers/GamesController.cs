@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Api_Game.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api_Game.Controllers
@@ -9,36 +10,20 @@ namespace Api_Game.Controllers
     [Route("api/[controller]")]
     public class GamesController : Controller
     {
-        // GET api/values
+        // GET api/games
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IEnumerable<VideoGame>> Get()
         {
-            return new string[] { "value1", "value2" };
+            throw new NotImplementedException();
+            //return new string[] { "value1", "value2" };
         }
 
-        // GET api/values/5
+        // GET api/games/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public VideoGame Get(long id)
         {
-            return "value";
-        }
-
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            throw new NotImplementedException();
+            //return "value";
         }
     }
 }
