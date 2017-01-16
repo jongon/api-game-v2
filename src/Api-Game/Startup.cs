@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Api_Game.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -29,6 +30,9 @@ namespace Api_Game
         {
             // Add framework services.
             services.AddMvc();
+
+            // Add our Config object so it can be injected
+            services.Configure<GameApiSettings>(Configuration.GetSection(nameof(GameApiSettings)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
