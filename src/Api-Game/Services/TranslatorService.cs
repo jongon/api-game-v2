@@ -28,13 +28,12 @@ namespace Api_Game.Services
             var parameters = new Dictionary<string, string>
             {
                 { "q", words },
-                { "target", Settings.Routes["Spanish"] },
-                { "key", Settings.Routes["SecretKey"] }
+                { "target", Settings.Parameters["Spanish"] },
+                { "key", Settings.Parameters["SecretKey"] }
             };
 
-            var response = await TranslatorHttpClient.GetAsync<DataTranslate>(Settings.ApiUri, Settings.Headers, parameters);
+            var response = await TranslatorHttpClient.GetAsync<DataTranslate>(Settings.ApiUri, parameters);
             return response.Data.Translations.First().TranslatedText;
-
         }
     }
 }
