@@ -21,13 +21,8 @@ namespace Api_Game.Utils
                 var response = await client.GetAsync(completeUri);
                 var responseString = await response.Content.ReadAsStringAsync();
 
-
                 var responseJson = JsonConvert.DeserializeObject<T>(
-                    responseString,
-                     new JsonSerializerSettings()
-                     {
-                         ContractResolver = new UnderscorePropertyNamesContractResolver()
-                     });
+                    responseString);
 
                 return responseJson;
             }

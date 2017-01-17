@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Api_Game.Models
 {
-    public class Translate
+    public class DataTranslate
     {
-        public IEnumerable<Translation> Translations { get; set; }
+        public Translate Data { get; set; }
     }
 }

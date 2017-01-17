@@ -33,7 +33,7 @@ namespace Api_Game.Services
             };
 
             var response = await TranslatorHttpClient.GetAsync<DataTranslate>(Settings.ApiUri, Settings.Headers, parameters);
-            return response.data.translations.First().translatedText;
+            return response.Data.Translations.First().TranslatedText;
 
         }
     }
