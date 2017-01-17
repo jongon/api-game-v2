@@ -30,9 +30,17 @@ namespace Api_Game.Services
             return result.FirstOrDefault();
         }
 
-        public Task<IEnumerable<VideoGame>> GetGamesAsync(string term)
+        public async Task<IEnumerable<VideoGame>> GetGamesAsync(string term)
         {
-            throw new NotImplementedException();
+            var parameters = new Dictionary<string, string>
+            {
+                { "fields", "*" },
+                { "search", term }
+            };
+
+            var uri = $"{Settings.ApiUri}/{Settings.Routes["Games"]}";
+            var result = await GameHttpClient.GetAsync<VideoGame>(uri, Settings.Headers, parameters);
+            return result;
         }
 
         public Task<Company> GetPublisherById(long publisherId)
