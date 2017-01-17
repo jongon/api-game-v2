@@ -11,6 +11,8 @@ namespace Api_Game.Utils
 
         public int Offset { get; set; }
 
-        //public TYPE Type { get; set; }
+        public bool OrderAsc { get; set; }
+
+        public string OrderParam { get; set; }
     }
 }
