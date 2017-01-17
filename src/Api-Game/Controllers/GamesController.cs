@@ -40,6 +40,7 @@ namespace Api_Game.Controllers
         {
             var videoGame = await _gameService.GetGameByIdAsync(id);
             videoGame.Summary = await _translatorService.TranslateToSpanishAsync(videoGame.Summary);
+            videoGame.Pegi.Synopsis = await _translatorService.TranslateToSpanishAsync(videoGame.Pegi.Synopsis);
             return videoGame;
         }
     }
