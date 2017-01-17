@@ -9,6 +9,8 @@ namespace Api_Game.Configuration
     {
         public string ApiUri { get; set; }
 
-        public string ApiKey { get; set; }
+        public Dictionary<string, string> Headers { get; set; }
+
+        public Dictionary<string, string> Paths { get; set; }
     }
 }

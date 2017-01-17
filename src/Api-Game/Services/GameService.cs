@@ -11,24 +11,36 @@ namespace Api_Game.Services
 {
     public class GameService : IGameService
     {
-        private readonly GameApiSettings _gameApiSettings;
+        public GameApiSettings Settings { get; }
 
         public GameService(GameApiSettings gameApiSettings)
         {
-            _gameApiSettings = gameApiSettings;
+            Settings = gameApiSettings;
         }
 
-        public async Task<VideoGame> GetGameByIdAsync(long id)
+        public async Task<VideoGame> GetGameByIdAsync(long gameId)
         {
             var parameters = new Dictionary<string, string>
             {
-                { "id", id.ToString() }
+                { "fields", "*" }
             };
-            var uri = _gameApiSettings.ApiUri + "/" + _gameApiSettings.GamePath;
-            return GameHttpClient.GetAsync<VideoGame>(uri, _gameApiSettings.ApiKey, parameters).Result;
+
+            var uri = $"{Settings.ApiUri}/{Settings.Paths["Games"]}/{gameId}";
+            var result = await GameHttpClient.GetAsync<VideoGame>(uri, Settings.Headers, parameters);
+            return result.FirstOrDefault();
         }
 
-        public async Task<IEnumerable<VideoGame>> GetGamesAsync(string term)
+        public Task<IEnumerable<VideoGame>> GetGamesAsync(string term)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Company> GetPublisherById(long publisherId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Company> GetDeveloperById(long developerId)
         {
             throw new NotImplementedException();
         }

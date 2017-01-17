@@ -7,10 +7,10 @@ namespace Api_Game.Configuration
 {
     public class GameApiSettings
     {
-        public string ApiKey { get; set; }
-
         public string ApiUri { get; set; }
 
-        public string GamePath { get; set; }
+        public Dictionary<string, string> Headers { get; set; }
+
+        public Dictionary<string, string> Paths { get; set; }
     }
 }
