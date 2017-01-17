@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api_Game.Configuration;
+using Api_Game.Controllers;
 using Api_Game.Interfaces;
 using Api_Game.Models;
 using Api_Game.Utils;
@@ -25,32 +26,70 @@ namespace Api_Game.Services
                 { "fields", "*" }
             };
 
-            var uri = $"{Settings.ApiUri}/{Settings.Routes["Games"]}/{gameId}";
-            var result = await GameHttpClient.GetAsync<VideoGame>(uri, Settings.Headers, parameters);
-            return result.FirstOrDefault();
+            var uri = $"{Settings.ApiUri}/{Settings.Routes["Games"]}/{gameId}/";
+            var result = GameHttpClient.GetAsync<VideoGame>(uri, Settings.Headers, parameters);
+
+            var videoGame = (await result).FirstOrDefault();
+
+            //videoGame.Developers = developers;
+            //videoGame.Publishers = publishers;
+
+            return videoGame;
         }
 
-        public async Task<IEnumerable<VideoGame>> GetGamesAsync(string term)
+        public async Task<IEnumerable<VideoGameName>> GetGamesAsync(string term)
         {
             var parameters = new Dictionary<string, string>
             {
-                { "fields", "*" },
+                { "fields", "name" },
                 { "search", term }
             };
 
-            var uri = $"{Settings.ApiUri}/{Settings.Routes["Games"]}";
-            var result = await GameHttpClient.GetAsync<VideoGame>(uri, Settings.Headers, parameters);
+            var uri = $"{Settings.ApiUri}/{Settings.Routes["Games"]}/";
+            var result = await GameHttpClient.GetAsync<VideoGameName>(uri, Settings.Headers, parameters);
             return result;
         }
 
-        public Task<Company> GetPublisherById(long publisherId)
+        public async Task<Company> GetPublisherByIdAsync(long publisherId)
         {
-            throw new NotImplementedException();
+            var parameters = new Dictionary<string, string>
+            {
+                { "fields", "*" }
+            };
+
+            var uri = $"{Settings.ApiUri}/{Settings.Routes["Publishers"]}/{publisherId}/";
+            var result = GameHttpClient.GetAsync<Company>(uri, Settings.Headers, parameters);
+            return (await result).FirstOrDefault();
         }
 
-        public Task<Company> GetDeveloperById(long developerId)
+        public async Task<Company> GetDeveloperByIdAsync(long developerId)
         {
-            throw new NotImplementedException();
+            var parameters = new Dictionary<string, string>
+            {
+                { "fields", "*" }
+            };
+
+            var uri = $"{Settings.ApiUri}/{Settings.Routes["Developers"]}/{developerId}/";
+            var result = GameHttpClient.GetAsync<Company>(uri, Settings.Headers, parameters);
+            return (await result).FirstOrDefault();
+        }
+
+        public async Task<IEnumerable<Company>> GetDevelopersAsync(IEnumerable<long> developerIds)
+        {
+            var tasks = developerIds.Select(GetDeveloperByIdAsync).ToList();
+
+            await Task.WhenAll(tasks);
+
+            return tasks.Select(x => x.Result);
+        }
+
+        public async Task<IEnumerable<Company>> GetPublishersAsync(IEnumerable<long> publisheIds)
+        {
+            var tasks = publisheIds.Select(GetPublisherByIdAsync).ToList();
+
+            await Task.WhenAll(tasks);
+
+            return tasks.Select(x => x.Result);
         }
     }
 }

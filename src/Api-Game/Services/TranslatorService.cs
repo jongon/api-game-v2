@@ -18,11 +18,6 @@ namespace Api_Game.Services
             Settings = settings;
         }
 
-        public async Task<string> TranslateToEnglishAsync(string words)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<string> TranslateToSpanishAsync(string words)
         {
             var parameters = new Dictionary<string, string>

@@ -10,8 +10,6 @@ namespace Api_Game.Interfaces
     {
         TranslatorSettings Settings { get; }
 
-        Task<string> TranslateToEnglishAsync(string words);
-
         Task<string> TranslateToSpanishAsync(string words);
     }
 }

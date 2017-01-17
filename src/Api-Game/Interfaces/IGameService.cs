@@ -13,10 +13,10 @@ namespace Api_Game.Interfaces
 
         Task<VideoGame> GetGameByIdAsync(long gameId);
 
-        Task<IEnumerable<VideoGame>> GetGamesAsync(string term);
+        Task<IEnumerable<VideoGameName>> GetGamesAsync(string term);
 
-        Task<Company> GetPublisherById(long publisherId);
+        Task<Company> GetPublisherByIdAsync(long publisherId);
 
-        Task<Company> GetDeveloperById(long developerId);
+        Task<Company> GetDeveloperByIdAsync(long developerId);
     }
 }

@@ -21,9 +21,11 @@ namespace Api_Game.Models
 
         public string Storyline { get; set; }
 
-        public IEnumerable<long> Developers { get; set; }
+        //It Could be long or Company
+        public IEnumerable<dynamic> Developers { get; set; }
 
-        public IEnumerable<long> Publishers { get; set; }
+        //It Could be long or Company
+        public IEnumerable<dynamic> Publishers { get; set; }
 
         public Image Cover { get; set; }
 

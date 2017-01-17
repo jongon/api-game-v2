@@ -26,9 +26,9 @@ namespace Api_Game.Controllers
             _translatorService = translatorService;
         }
 
-        // GET api/games
+        
         [HttpGet]
-        public async Task<IEnumerable<VideoGame>> Get(string term)
+        public async Task<IEnumerable<VideoGameName>> Get(string term)
         {
             var videoGames = _gameService.GetGamesAsync(term);
             return await videoGames;
