@@ -5,12 +5,10 @@ using System.Threading.Tasks;
 
 namespace Api_Game.Configuration
 {
-    public class GameApiSettings
+    public class TranslatorSettings
     {
-        public string ApiKey { get; set; }
-
         public string ApiUri { get; set; }
 
-        public string GamePath { get; set; }
+        public string ApiKey { get; set; }
     }
 }

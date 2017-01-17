@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api_Game.Configuration;
+using Api_Game.Interfaces;
 using Api_Game.Models;
+using Api_Game.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -12,20 +14,24 @@ namespace Api_Game.Controllers
     [Route("api/[controller]")]
     public class GamesController : Controller
     {
-        private readonly GameApiSettings _gameApiSettings;
+        private readonly IGameService _gameService;
+
+        private readonly ITranslatorService _translatorService;
 
         public GamesController(
-            IOptions<GameApiSettings> apiGameSettings)
+            IGameService gameService,
+            ITranslatorService translatorService)
         {
-            _gameApiSettings = apiGameSettings.Value;
+            _gameService = gameService;
+            _translatorService = translatorService;
         }
 
         // GET api/games
         [HttpGet]
-        public async Task<IEnumerable<VideoGame>> Get()
+        public async Task<IEnumerable<VideoGame>> Get(string term)
         {
-            throw new NotImplementedException();
-            //return new string[] { "value1", "value2" };
+            var videoGames = _gameService.GetGamesAsync(term);
+            return await videoGames;
         }
 
         // GET api/games/5
