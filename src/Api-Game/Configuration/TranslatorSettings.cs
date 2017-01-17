@@ -11,6 +11,6 @@ namespace Api_Game.Configuration
 
         public Dictionary<string, string> Headers { get; set; }
 
-        public Dictionary<string, string> Paths { get; set; }
+        public Dictionary<string, string> Routes { get; set; }
     }
 }

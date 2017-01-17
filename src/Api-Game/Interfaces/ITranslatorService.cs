@@ -12,6 +12,6 @@ namespace Api_Game.Interfaces
 
         Task<string> TranslateToEnglishAsync(string words);
 
-        Task<string> TranslateToSpanish(string words);
+        Task<string> TranslateToSpanishAsync(string words);
     }
 }

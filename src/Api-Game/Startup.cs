@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Api_Game.Configuration;
+﻿using Api_Game.Configuration;
 using Api_Game.Interfaces;
 using Api_Game.Services;
 using Microsoft.AspNetCore.Builder;
@@ -35,8 +31,10 @@ namespace Api_Game
 
             // Add our Config object so it can be injected
             var gameApiSettings = Configuration.GetSection(nameof(GameApiSettings)).Get<GameApiSettings>();
+            var translatorSettings = Configuration.GetSection(nameof(TranslatorSettings)).Get<TranslatorSettings>();
+
             services.AddSingleton<IGameService>(new GameService(gameApiSettings));
-            services.AddSingleton<ITranslatorService, TranslatorService>();
+            services.AddSingleton<ITranslatorService>(new TranslatorService(translatorSettings));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

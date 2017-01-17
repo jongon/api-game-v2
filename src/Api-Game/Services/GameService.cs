@@ -25,7 +25,7 @@ namespace Api_Game.Services
                 { "fields", "*" }
             };
 
-            var uri = $"{Settings.ApiUri}/{Settings.Paths["Games"]}/{gameId}";
+            var uri = $"{Settings.ApiUri}/{Settings.Routes["Games"]}/{gameId}";
             var result = await GameHttpClient.GetAsync<VideoGame>(uri, Settings.Headers, parameters);
             return result.FirstOrDefault();
         }

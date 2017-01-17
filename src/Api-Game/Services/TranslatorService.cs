@@ -11,12 +11,17 @@ namespace Api_Game.Services
     {
         public TranslatorSettings Settings { get; }
 
-        public Task<string> TranslateToEnglishAsync(string words)
+        public TranslatorService(TranslatorSettings settings)
+        {
+            Settings = settings;
+        }
+
+        public async Task<string> TranslateToEnglishAsync(string words)
         {
             throw new NotImplementedException();
         }
 
-        Task<string> ITranslatorService.TranslateToSpanish(string words)
+        public async Task<string> TranslateToSpanishAsync(string words)
         {
             throw new NotImplementedException();
         }

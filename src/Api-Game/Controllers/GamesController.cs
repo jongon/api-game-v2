@@ -38,8 +38,9 @@ namespace Api_Game.Controllers
         [HttpGet("{id}")]
         public async Task<VideoGame> Get(long id)
         {
-            var videoGames = _gameService.GetGameByIdAsync(id);
-            return await videoGames;
+            var videoGame = await _gameService.GetGameByIdAsync(id);
+            videoGame.Summary = await _translatorService.TranslateToSpanishAsync(videoGame.Summary);
+            return videoGame;
         }
     }
 }
