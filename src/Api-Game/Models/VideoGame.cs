@@ -29,5 +29,7 @@ namespace Api_Game.Models
         public Esrb Esrb { get; set; }
 
         public Pegi Pegi { get; set; }
+
+        public Tcse Tcse { get; set; }
     }
 }

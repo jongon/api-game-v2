@@ -14,11 +14,14 @@ namespace Api_Game.Controllers
 
         private readonly ITranslatorService _translatorService;
 
+        private readonly IClasificationTableService _clasificationTableService;
+
         public GamesController(
             IGameService gameService,
-            ITranslatorService translatorService)
+            ITranslatorService translatorService,
+            IClasificationTableService clasificationTableService)
         {
-            // TODO Image Configuration
+            _clasificationTableService = clasificationTableService;
             _gameService = gameService;
             _translatorService = translatorService;
         }
@@ -26,8 +29,7 @@ namespace Api_Game.Controllers
         [HttpGet]
         public async Task<IEnumerable<VideoGameName>> Get(string term, Paging paging)
         {
-            // TODO Pass Paging Parameters
-            var videoGames = _gameService.GetGamesAsync(term);
+            var videoGames = _gameService.GetGamesAsync(term, paging);
             return await videoGames;
         }
 
@@ -36,8 +38,14 @@ namespace Api_Game.Controllers
         public async Task<VideoGame> Get(long id)
         {
             var videoGame = await _gameService.GetGameByIdAsync(id);
+
             videoGame.Summary = await _translatorService.TranslateToSpanishAsync(videoGame.Summary);
-            videoGame.Pegi.Synopsis = await _translatorService.TranslateToSpanishAsync(videoGame.Pegi.Synopsis);
+
+            if (videoGame.Pegi != null)
+                videoGame.Pegi.Synopsis = await _translatorService.TranslateToSpanishAsync(videoGame.Pegi.Synopsis);
+
+            videoGame.Tcse = _clasificationTableService.ConvertToTcse(videoGame.Esrb);
+
             return videoGame;
         }
     }

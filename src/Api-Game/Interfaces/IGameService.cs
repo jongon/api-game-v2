@@ -2,6 +2,7 @@
 using Api_Game.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Api_Game.Utils;
 
 namespace Api_Game.Interfaces
 {
@@ -11,7 +12,7 @@ namespace Api_Game.Interfaces
 
         Task<VideoGame> GetGameByIdAsync(long gameId);
 
-        Task<IEnumerable<VideoGameName>> GetGamesAsync(string term);
+        Task<IEnumerable<VideoGameName>> GetGamesAsync(string term, Paging paging);
 
         Task<Company> GetPublisherByIdAsync(long publisherId);
 

@@ -2,14 +2,14 @@
 {
     public enum PegiEnum
     {
-        Year3,
+        Year3 = 1,
 
-        Year7,
+        Year7 = 2,
 
-        Year12,
+        Year12 = 3,
 
-        Year16,
+        Year16 = 4,
 
-        Year18
+        Year18 = 5
     }
 }

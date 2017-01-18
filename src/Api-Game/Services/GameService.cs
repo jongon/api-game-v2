@@ -42,11 +42,12 @@ namespace Api_Game.Services
             return videoGame;
         }
 
-        public async Task<IEnumerable<VideoGameName>> GetGamesAsync(string term)
+        public async Task<IEnumerable<VideoGameName>> GetGamesAsync(string term, Paging paging)
         {
             var parameters = new Dictionary<string, string>
             {
                 { "fields", "name" },
+                //{ "limit" }
                 { "search", term }
             };
 

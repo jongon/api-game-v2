@@ -1,9 +1,13 @@
-﻿using Api_Game.Configuration;
+﻿using System.Collections.Generic;
+using Api_Game.Configuration;
+using Api_Game.Models;
 
 namespace Api_Game.Interfaces
 {
     public interface IClasificationTableService
     {
-        ImageSettings Settings { get; }
+        IEnumerable<TcseSettings> Settings { get; }
+
+        Tcse ConvertToTcse(Esrb esrb);
     }
 }

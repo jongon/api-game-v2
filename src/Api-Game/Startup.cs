@@ -1,6 +1,8 @@
-﻿using Api_Game.Configuration;
+﻿using System.Collections.Generic;
+using Api_Game.Configuration;
 using Api_Game.Interfaces;
 using Api_Game.Services;
+using Api_Game.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -32,10 +34,12 @@ namespace Api_Game
             // Add our Config object so it can be injected
             var gameApiSettings = Configuration.GetSection(nameof(GameApiSettings)).Get<GameApiSettings>();
             var translatorSettings = Configuration.GetSection(nameof(TranslatorSettings)).Get<TranslatorSettings>();
-            var imagesSettings = Configuration.GetSection(nameof(ImageSettings)).Get<ImageSettings>();
-            //TODO: Add Image Configuration
+            var tcseSettings = Configuration.GetSection(nameof(TcseSettings)).Get<IList<TcseSettings>>();
+            var storageSettings = Configuration.GetSection(nameof(StorageBlobSettings)).Get<StorageBlobSettings>();
 
-            services.AddScoped<IClasificationTableService, ClasificationTableService>(x => new ClasificationTableService(imagesSettings));
+            tcseSettings = ConfigurationMerger.SetClasificationImageUrls(storageSettings, tcseSettings);
+
+            services.AddScoped<IClasificationTableService, ClasificationTableService>(x => new ClasificationTableService(tcseSettings));
             services.AddScoped<IGameService, GameService>(x => new GameService(gameApiSettings));
             services.AddScoped<ITranslatorService, TranslatorService>(x => new TranslatorService(translatorSettings));
         }

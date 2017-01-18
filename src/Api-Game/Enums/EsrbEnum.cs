@@ -2,18 +2,18 @@
 {
     public enum EsrbEnum
     {
-        Rp,
+        Rp = 1,
 
-        Ec,
+        Ec = 2,
 
-        E,
+        E = 3,
 
-        E10,
+        E10 = 4,
 
-        T,
+        T = 5,
 
-        M,
+        M = 6,
 
-        AO
+        AO = 7
     }
 }
