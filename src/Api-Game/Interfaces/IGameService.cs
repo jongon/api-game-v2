@@ -1,8 +1,8 @@
 ﻿using Api_Game.Configuration;
 using Api_Game.Models;
+using Api_Game.Utils;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Api_Game.Utils;
 
 namespace Api_Game.Interfaces
 {

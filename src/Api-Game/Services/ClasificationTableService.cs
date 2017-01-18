@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using Api_Game.Configuration;
+﻿using Api_Game.Configuration;
 using Api_Game.Enums;
 using Api_Game.Interfaces;
 using Api_Game.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Api_Game.Services
 {
@@ -29,16 +28,20 @@ namespace Api_Game.Services
                 case EsrbEnum.E10:
                     tcseRating = TcseEnum.TU;
                     break;
+
                 case EsrbEnum.T:
                     tcseRating = TcseEnum.UA;
                     break;
+
                 case EsrbEnum.M:
                 case EsrbEnum.AO:
                     tcseRating = TcseEnum.UM;
                     break;
+
                 case EsrbEnum.Rp:
                     tcseRating = TcseEnum.EC;
                     break;
+
                 default:
                     tcseRating = TcseEnum.EC;
                     break;
@@ -66,6 +69,7 @@ namespace Api_Game.Services
                         Image = setting.Image.Normal,
                         Thumbnail = setting.Image.Thumbnail
                     };
+
                 case TcseEnum.TU:
                     setting = Settings.FirstOrDefault(x => findExpression(x, TcseEnum.TU));
                     return new Tcse
@@ -76,6 +80,7 @@ namespace Api_Game.Services
                         Image = setting.Image.Normal,
                         Thumbnail = setting.Image.Thumbnail
                     };
+
                 case TcseEnum.UA:
                     setting = Settings.FirstOrDefault(x => findExpression(x, TcseEnum.UA));
                     return new Tcse
@@ -86,6 +91,7 @@ namespace Api_Game.Services
                         Image = setting.Image.Normal,
                         Thumbnail = setting.Image.Thumbnail
                     };
+
                 case TcseEnum.UM:
                     setting = Settings.FirstOrDefault(x => findExpression(x, TcseEnum.UM));
                     return new Tcse
@@ -96,6 +102,7 @@ namespace Api_Game.Services
                         Image = setting.Image.Normal,
                         Thumbnail = setting.Image.Thumbnail
                     };
+
                 default:
                     setting = Settings.FirstOrDefault(x => findExpression(x, TcseEnum.EC));
                     return new Tcse

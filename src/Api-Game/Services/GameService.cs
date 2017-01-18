@@ -44,10 +44,18 @@ namespace Api_Game.Services
 
         public async Task<IEnumerable<VideoGameName>> GetGamesAsync(string term, Paging paging)
         {
+            paging.Limit = paging.Limit ?? 10;
+            paging.Offset = paging.Offset ?? 0;
+            paging.OrderParam = paging.OrderParam ?? "popularity";
+
+            var orderString = paging.OrderAsc ? "asc" : "desc";
+
             var parameters = new Dictionary<string, string>
             {
                 { "fields", "name" },
-                //{ "limit" }
+                { "limit" , paging.Limit.ToString() },
+                { "offset", paging.Offset.ToString() },
+                { "order", $"{paging.OrderParam}:{orderString}" },
                 { "search", term }
             };
 

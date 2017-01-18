@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Api_Game.Configuration
+﻿namespace Api_Game.Configuration
 {
     public class StorageBlobSettings
     {

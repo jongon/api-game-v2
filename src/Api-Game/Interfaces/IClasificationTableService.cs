@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Api_Game.Configuration;
+﻿using Api_Game.Configuration;
 using Api_Game.Models;
+using System.Collections.Generic;
 
 namespace Api_Game.Interfaces
 {

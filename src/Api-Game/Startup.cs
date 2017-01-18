@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Api_Game.Configuration;
+﻿using Api_Game.Configuration;
 using Api_Game.Interfaces;
 using Api_Game.Services;
 using Api_Game.Utils;
@@ -8,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace Api_Game
 {
