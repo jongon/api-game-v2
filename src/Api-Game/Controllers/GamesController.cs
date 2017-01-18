@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Api_Game.Configuration;
-using Api_Game.Interfaces;
+﻿using Api_Game.Interfaces;
 using Api_Game.Models;
-using Api_Game.Services;
 using Api_Game.Utils;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Api_Game.Controllers
 {
@@ -28,7 +23,6 @@ namespace Api_Game.Controllers
             _translatorService = translatorService;
         }
 
-        
         [HttpGet]
         public async Task<IEnumerable<VideoGameName>> Get(string term, Paging paging)
         {

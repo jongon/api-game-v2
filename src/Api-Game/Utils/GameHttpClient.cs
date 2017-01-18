@@ -1,16 +1,14 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.WebUtilities;
+using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.WebUtilities;
-using Newtonsoft.Json;
 
 namespace Api_Game.Utils
 {
     public static class GameHttpClient
     {
-        public static async Task<IEnumerable<T>> GetAsync<T>(string uri, Dictionary<string, string> headers , Dictionary<string, string> parameters)
+        public static async Task<IEnumerable<T>> GetAsync<T>(string uri, Dictionary<string, string> headers, Dictionary<string, string> parameters)
         {
             using (var client = new HttpClient())
             {

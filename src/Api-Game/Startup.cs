@@ -32,11 +32,12 @@ namespace Api_Game
             // Add our Config object so it can be injected
             var gameApiSettings = Configuration.GetSection(nameof(GameApiSettings)).Get<GameApiSettings>();
             var translatorSettings = Configuration.GetSection(nameof(TranslatorSettings)).Get<TranslatorSettings>();
-
+            var imagesSettings = Configuration.GetSection(nameof(ImageSettings)).Get<ImageSettings>();
             //TODO: Add Image Configuration
 
-            services.AddSingleton<IGameService>(new GameService(gameApiSettings));
-            services.AddSingleton<ITranslatorService>(new TranslatorService(translatorSettings));
+            services.AddScoped<IClasificationTableService, ClasificationTableService>(x => new ClasificationTableService(imagesSettings));
+            services.AddScoped<IGameService, GameService>(x => new GameService(gameApiSettings));
+            services.AddScoped<ITranslatorService, TranslatorService>(x => new TranslatorService(translatorSettings));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
