@@ -39,7 +39,8 @@ namespace Api_Game.Controllers
         {
             var videoGame = await _gameService.GetGameByIdAsync(id);
 
-            videoGame.Summary = await _translatorService.TranslateToSpanishAsync(videoGame.Summary);
+            if (videoGame.Summary != null)
+                videoGame.Summary = await _translatorService.TranslateToSpanishAsync(videoGame.Summary);
 
             if (videoGame.Pegi != null)
                 videoGame.Pegi.Synopsis = await _translatorService.TranslateToSpanishAsync(videoGame.Pegi.Synopsis);
