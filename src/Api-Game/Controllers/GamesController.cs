@@ -6,6 +6,7 @@ using Api_Game.Configuration;
 using Api_Game.Interfaces;
 using Api_Game.Models;
 using Api_Game.Services;
+using Api_Game.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -22,14 +23,16 @@ namespace Api_Game.Controllers
             IGameService gameService,
             ITranslatorService translatorService)
         {
+            // TODO Image Configuration
             _gameService = gameService;
             _translatorService = translatorService;
         }
 
         
         [HttpGet]
-        public async Task<IEnumerable<VideoGameName>> Get(string term)
+        public async Task<IEnumerable<VideoGameName>> Get(string term, Paging paging)
         {
+            // TODO Pass Paging Parameters
             var videoGames = _gameService.GetGamesAsync(term);
             return await videoGames;
         }

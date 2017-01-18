@@ -18,5 +18,9 @@ namespace Api_Game.Interfaces
         Task<Company> GetPublisherByIdAsync(long publisherId);
 
         Task<Company> GetDeveloperByIdAsync(long developerId);
+
+        Task<IEnumerable<Company>> GetDevelopersAsync(IEnumerable<long> developerIds);
+
+        Task<IEnumerable<Company>> GetPublishersAsync(IEnumerable<long> publisherIds);
     }
 }

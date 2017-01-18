@@ -33,6 +33,8 @@ namespace Api_Game
             var gameApiSettings = Configuration.GetSection(nameof(GameApiSettings)).Get<GameApiSettings>();
             var translatorSettings = Configuration.GetSection(nameof(TranslatorSettings)).Get<TranslatorSettings>();
 
+            //TODO: Add Image Configuration
+
             services.AddSingleton<IGameService>(new GameService(gameApiSettings));
             services.AddSingleton<ITranslatorService>(new TranslatorService(translatorSettings));
         }
