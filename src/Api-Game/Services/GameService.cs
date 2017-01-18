@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Api_Game.Configuration;
 using Api_Game.Controllers;
 using Api_Game.Interfaces;
 using Api_Game.Models;
 using Api_Game.Utils;
+using Newtonsoft.Json;
 
 namespace Api_Game.Services
 {
@@ -31,8 +33,14 @@ namespace Api_Game.Services
 
             var videoGame = (await result).FirstOrDefault();
 
-            //videoGame.Developers = developers;
-            //videoGame.Publishers = publishers;
+            var developersIds = JsonConvert.DeserializeObject<IEnumerable<long>>(JsonConvert.SerializeObject(videoGame.Developers));
+            var publisherIds = JsonConvert.DeserializeObject<IEnumerable<long>>(JsonConvert.SerializeObject(videoGame.Publishers));
+
+            var developers = GetDevelopersAsync(developersIds);
+            var publishers = GetPublishersAsync(publisherIds);
+
+            videoGame.Publishers = await publishers;
+            videoGame.Developers = await developers;
 
             return videoGame;
         }
@@ -78,18 +86,26 @@ namespace Api_Game.Services
         {
             var tasks = developerIds.Select(GetDeveloperByIdAsync).ToList();
 
-            await Task.WhenAll(tasks);
+            var developers = new List<Company>();
+            foreach (var task in tasks)
+            {
+                developers.Add(await task);
+            }
 
-            return tasks.Select(x => x.Result);
+            return developers;
         }
 
-        public async Task<IEnumerable<Company>> GetPublishersAsync(IEnumerable<long> publisheIds)
+        public async Task<IEnumerable<Company>> GetPublishersAsync(IEnumerable<long> publisherIds)
         {
-            var tasks = publisheIds.Select(GetPublisherByIdAsync).ToList();
+            var tasks = publisherIds.Select(GetPublisherByIdAsync).ToList();
 
-            await Task.WhenAll(tasks);
+            var publishers = new List<Company>();
+            foreach (var task in tasks)
+            {
+                publishers.Add(await task);
+            }
 
-            return tasks.Select(x => x.Result);
+            return publishers;
         }
     }
 }
