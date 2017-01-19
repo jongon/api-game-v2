@@ -42,10 +42,14 @@ namespace Api_Game.Controllers
             if (videoGame.Summary != null)
                 videoGame.Summary = await _translatorService.TranslateToSpanishAsync(videoGame.Summary);
 
+            if (videoGame.Storyline != null)
+                videoGame.Storyline = await _translatorService.TranslateToSpanishAsync(videoGame.Storyline);
+
             if (videoGame.Pegi != null)
                 videoGame.Pegi.Synopsis = await _translatorService.TranslateToSpanishAsync(videoGame.Pegi.Synopsis);
 
-            videoGame.Tcse = _clasificationTableService.ConvertToTcse(videoGame.Esrb);
+            if (videoGame.Tcse != null)
+                videoGame.Tcse = _clasificationTableService.ConvertToTcse(videoGame.Esrb);
 
             return videoGame;
         }
