@@ -4,10 +4,12 @@ using Api_Game.Services;
 using Api_Game.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.IO.Compression;
 
 namespace Api_Game
 {
@@ -28,8 +30,20 @@ namespace Api_Game
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+
             // Add framework services.
             services.AddMvc();
+
+            //Configure Compression level
+            services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
+
+            //Add Response compression services
+            services.AddResponseCompression(options =>
+            {
+                options.EnableForHttps = true;
+                options.Providers.Add<GzipCompressionProvider>();
+            });
 
             // Add our Config object so it can be injected
             var gameApiSettings = Configuration.GetSection(nameof(GameApiSettings)).Get<GameApiSettings>();
@@ -50,6 +64,10 @@ namespace Api_Game
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            //Add Middleware
+            app.UseResponseCompression();
+
+            app.UseCors(builder => builder.AllowAnyOrigin());
             app.UseMvc();
         }
     }
