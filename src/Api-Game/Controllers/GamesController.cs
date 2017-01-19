@@ -48,7 +48,7 @@ namespace Api_Game.Controllers
             if (videoGame.Pegi != null)
                 videoGame.Pegi.Synopsis = await _translatorService.TranslateToSpanishAsync(videoGame.Pegi.Synopsis);
 
-            if (videoGame.Tcse != null)
+            if (videoGame.Esrb != null)
                 videoGame.Tcse = _clasificationTableService.ConvertToTcse(videoGame.Esrb);
 
             return videoGame;
