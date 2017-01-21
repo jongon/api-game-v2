@@ -13,17 +13,25 @@ namespace Api_Game.Controllers
         // GET: /<controller>/
         private readonly IGameService _gameService;
 
-        public GenresController(IGameService gameService)
+        private readonly ITranslatorService _translatorService;
+
+        public GenresController(
+            IGameService gameService,
+            ITranslatorService translatorService)
         {
             _gameService = gameService;
+            _translatorService = translatorService;
         }
 
         // GET api/games
         [HttpGet("{id}")]
         public async Task<Genre> Get(long id)
         {
-            var genre = _gameService.GetGenreByIdAsync(id);
-            return await genre;
+            var genre = await _gameService.GetGenreByIdAsync(id);
+
+            genre.Name = await _translatorService.TranslateToSpanishAsync(genre.Name);
+
+            return genre;
         }
     }
 }

@@ -64,6 +64,18 @@ namespace Api_Game.Controllers
             if (videoGame.Pegi != null)
                 videoGame.Pegi.Synopsis = await _translatorService.TranslateToSpanishAsync(videoGame.Pegi.Synopsis);
 
+            if (videoGame.Genres.Any())
+            {
+                var genreList = videoGame.Genres as IList<dynamic> ?? videoGame.Genres.ToList();
+
+                foreach (var t in genreList)
+                {
+                    t.Name = await _translatorService.TranslateToSpanishAsync(t.Name);
+                }
+
+                videoGame.Genres = genreList;
+            }
+
             if (videoGame.Esrb == null) return videoGame;
             videoGame.Tcse = _clasificationTableService.ConvertToTcse(videoGame.Esrb);
             videoGame.Esrb = _clasificationTableService.ConvertToEsrb(videoGame.Esrb);
