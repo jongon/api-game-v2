@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace Api_Game.Services
 {
@@ -38,6 +39,21 @@ namespace Api_Game.Services
 
             videoGame.Publishers = await publishers;
             videoGame.Developers = await developers;
+
+            if (videoGame.Genres.Any())
+            {
+                var genres = new List<Genre>();
+
+                foreach (var genre in videoGame.Genres)
+                {
+                    var genreId = JsonConvert.DeserializeObject<long>(JsonConvert.SerializeObject(genre));
+                    var auxGenre = await GetGenreByIdAsync(genreId, "id,name,slug");
+
+                    genres.Add(auxGenre);
+                }
+
+                videoGame.Genres = genres;
+            }
 
             if (!videoGame.ReleaseDates.Any()) return videoGame;
 
@@ -138,6 +154,18 @@ namespace Api_Game.Services
             return (await result).FirstOrDefault();
         }
 
+        public async Task<Genre> GetGenreByIdAsync(long genreId, string fields = "*")
+        {
+            var parameters = new Dictionary<string, string>
+            {
+                { "fields", fields }
+            };
+
+            var uri = $"{Settings.ApiUri}/{Settings.Routes["Genres"]}/{genreId}/";
+            var result = GameHttpClient.GetAsync<Genre>(uri, Settings.Headers, parameters);
+            return (await result).FirstOrDefault();
+        }
+
         public async Task<IEnumerable<Company>> GetDevelopersAsync(IEnumerable<long> developerIds, string fields = "*")
         {
             var tasks = developerIds.Select(developerId => GetDeveloperByIdAsync(developerId, fields)).ToList();
@@ -163,5 +191,6 @@ namespace Api_Game.Services
 
             return publishers;
         }
+
     }
 }

@@ -22,6 +22,8 @@ namespace Api_Game.Interfaces
 
         Task<Platform> GetPlatformByIdAsync(long platformId, string fields = "*");
 
+        Task<Genre> GetGenreByIdAsync(long platformId, string fields = "*");
+
         Task<IEnumerable<Company>> GetDevelopersAsync(IEnumerable<long> developerIds, string fields = "*");
 
         Task<IEnumerable<Company>> GetPublishersAsync(IEnumerable<long> publisherIds, string fields = "*");

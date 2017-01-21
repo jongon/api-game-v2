@@ -9,6 +9,7 @@ namespace Api_Game.Models
         {
             Developers = new HashSet<dynamic>();
             Publishers = new HashSet<dynamic>();
+            Genres = new HashSet<dynamic>();
             ReleaseDates = new HashSet<ReleaseDate>();
         }
 
@@ -30,6 +31,8 @@ namespace Api_Game.Models
 
         //It Could be long or Company
         public IEnumerable<dynamic> Publishers { get; set; }
+
+        public IEnumerable<dynamic> Genres { get; set; }
 
         public IEnumerable<ReleaseDate> ReleaseDates { get; set; }
 
