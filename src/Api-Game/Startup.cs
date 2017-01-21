@@ -50,12 +50,15 @@ namespace Api_Game
             // Add our Config object so it can be injected
             var gameApiSettings = Configuration.GetSection(nameof(GameApiSettings)).Get<GameApiSettings>();
             var translatorSettings = Configuration.GetSection(nameof(TranslatorSettings)).Get<TranslatorSettings>();
-            var tcseSettings = Configuration.GetSection(nameof(TcseSettings)).Get<IList<TcseSettings>>();
+            var tcseSettings = Configuration.GetSection("TcseSettings").Get<IList<ClasificationSettings>>();
+            var esrbSettings = Configuration.GetSection("EsrbSettings").Get<IList<ClasificationSettings>>();
+
             var storageSettings = Configuration.GetSection(nameof(StorageBlobSettings)).Get<StorageBlobSettings>();
 
             tcseSettings = ConfigurationMerger.SetClasificationImageUrls(storageSettings, tcseSettings);
+            esrbSettings = ConfigurationMerger.SetClasificationImageUrls(storageSettings, esrbSettings);
 
-            services.AddScoped<IClasificationTableService, ClasificationTableService>(x => new ClasificationTableService(tcseSettings));
+            services.AddScoped<IClasificationTableService, ClasificationTableService>(x => new ClasificationTableService(tcseSettings, esrbSettings));
             services.AddScoped<IGameService, GameService>(x => new GameService(gameApiSettings));
             services.AddScoped<ITranslatorService, TranslatorService>(x => new TranslatorService(translatorSettings));
         }

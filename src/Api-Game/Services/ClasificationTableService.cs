@@ -10,11 +10,16 @@ namespace Api_Game.Services
 {
     public class ClasificationTableService : IClasificationTableService
     {
-        public IEnumerable<TcseSettings> Settings { get; }
+        public IEnumerable<ClasificationSettings> TcseSettings { get; }
 
-        public ClasificationTableService(IEnumerable<TcseSettings> settings)
+        public IEnumerable<ClasificationSettings> EsrbSettings { get; }
+
+        public ClasificationTableService(
+            IEnumerable<ClasificationSettings> tcseSettings, 
+            IEnumerable<ClasificationSettings> esrbSettings)
         {
-            Settings = settings;
+            TcseSettings = tcseSettings;
+            EsrbSettings = esrbSettings;
         }
 
         public Tcse ConvertToTcse(Esrb esrb)
@@ -54,13 +59,13 @@ namespace Api_Game.Services
 
         private Tcse FillTableData(TcseEnum tcseEnum)
         {
-            Func<TcseSettings, TcseEnum, bool> findExpression = (x, y) => x.Id == (int)y;
-            TcseSettings setting;
+            Func<ClasificationSettings, TcseEnum, bool> findExpression = (x, y) => x.Id == (int)y;
+            ClasificationSettings setting;
 
             switch (tcseEnum)
             {
                 case TcseEnum.EC:
-                    setting = Settings.FirstOrDefault(x => findExpression(x, TcseEnum.EC));
+                    setting = TcseSettings.FirstOrDefault(x => findExpression(x, TcseEnum.EC));
                     return new Tcse
                     {
                         Rating = TcseEnum.EC,
@@ -71,7 +76,7 @@ namespace Api_Game.Services
                     };
 
                 case TcseEnum.TU:
-                    setting = Settings.FirstOrDefault(x => findExpression(x, TcseEnum.TU));
+                    setting = TcseSettings.FirstOrDefault(x => findExpression(x, TcseEnum.TU));
                     return new Tcse
                     {
                         Rating = TcseEnum.TU,
@@ -82,7 +87,7 @@ namespace Api_Game.Services
                     };
 
                 case TcseEnum.UA:
-                    setting = Settings.FirstOrDefault(x => findExpression(x, TcseEnum.UA));
+                    setting = TcseSettings.FirstOrDefault(x => findExpression(x, TcseEnum.UA));
                     return new Tcse
                     {
                         Rating = TcseEnum.UA,
@@ -93,7 +98,7 @@ namespace Api_Game.Services
                     };
 
                 case TcseEnum.UM:
-                    setting = Settings.FirstOrDefault(x => findExpression(x, TcseEnum.UM));
+                    setting = TcseSettings.FirstOrDefault(x => findExpression(x, TcseEnum.UM));
                     return new Tcse
                     {
                         Rating = TcseEnum.UM,
@@ -104,7 +109,7 @@ namespace Api_Game.Services
                     };
 
                 default:
-                    setting = Settings.FirstOrDefault(x => findExpression(x, TcseEnum.EC));
+                    setting = TcseSettings.FirstOrDefault(x => findExpression(x, TcseEnum.EC));
                     return new Tcse
                     {
                         Rating = TcseEnum.EC,

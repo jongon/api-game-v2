@@ -1,6 +1,6 @@
 ﻿namespace Api_Game.Configuration
 {
-    public class TcseSettings
+    public class ClasificationSettings
     {
         public int Id { get; set; }
 

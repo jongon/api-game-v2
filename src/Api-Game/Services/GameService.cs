@@ -75,7 +75,7 @@ namespace Api_Game.Services
 
             var parameters = new Dictionary<string, string>
             {
-                { "fields", "name,publishers,esrb" },
+                { "fields", "name,cover,publishers,esrb" },
                 { "limit" , paging.Limit.ToString() },
                 { "offset", paging.Offset.ToString() },
                 { "order", $"{paging.OrderParam}:{orderString}" },

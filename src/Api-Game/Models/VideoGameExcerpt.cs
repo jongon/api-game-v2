@@ -20,5 +20,7 @@ namespace Api_Game.Models
         public Tcse Tcse { get; set; }
 
         public Esrb Esrb { get; set; }
+
+        public Image Cover { get; set; }
     }
 }

@@ -7,9 +7,9 @@ namespace Api_Game.Utils
 {
     public static class ConfigurationMerger
     {
-        public static IList<TcseSettings> SetClasificationImageUrls(StorageBlobSettings storageSettings, IEnumerable<TcseSettings> tcseSettings)
+        public static IList<ClasificationSettings> SetClasificationImageUrls(StorageBlobSettings storageSettings, IEnumerable<ClasificationSettings> tcseSettings)
         {
-            var tcseList = tcseSettings as IList<TcseSettings> ?? tcseSettings.ToList();
+            var tcseList = tcseSettings as IList<ClasificationSettings> ?? tcseSettings.ToList();
             var baseUri = new Uri(storageSettings.Url);
 
             foreach (var tcseSetting in tcseList)

@@ -6,8 +6,10 @@ namespace Api_Game.Interfaces
 {
     public interface IClasificationTableService
     {
-        IEnumerable<TcseSettings> Settings { get; }
+        IEnumerable<ClasificationSettings> TcseSettings { get; }
 
+        IEnumerable<ClasificationSettings> EsrbSettings { get; }
+        
         Tcse ConvertToTcse(Esrb esrb);
     }
 }
