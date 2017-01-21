@@ -6,7 +6,6 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
 
 namespace Api_Game.Services
 {
@@ -39,6 +38,14 @@ namespace Api_Game.Services
 
             videoGame.Publishers = await publishers;
             videoGame.Developers = await developers;
+
+            if (!videoGame.ReleaseDates.Any()) return videoGame;
+
+            foreach (var releaseDate in videoGame.ReleaseDates)
+            {
+                var platformId = JsonConvert.DeserializeObject<long>(JsonConvert.SerializeObject(releaseDate.Platform));
+                releaseDate.Platform = await GetPlatformByIdAsync(platformId, "id,name");
+            }
 
             return videoGame;
         }
@@ -116,6 +123,18 @@ namespace Api_Game.Services
 
             var uri = $"{Settings.ApiUri}/{Settings.Routes["Developers"]}/{developerId}/";
             var result = GameHttpClient.GetAsync<Company>(uri, Settings.Headers, parameters);
+            return (await result).FirstOrDefault();
+        }
+
+        public async Task<Platform> GetPlatformByIdAsync(long platformId, string fields = "*")
+        {
+            var parameters = new Dictionary<string, string>
+            {
+                { "fields", fields }
+            };
+
+            var uri = $"{Settings.ApiUri}/{Settings.Routes["Platforms"]}/{platformId}/";
+            var result = GameHttpClient.GetAsync<Platform>(uri, Settings.Headers, parameters);
             return (await result).FirstOrDefault();
         }
 

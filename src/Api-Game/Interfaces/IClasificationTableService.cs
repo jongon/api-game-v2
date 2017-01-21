@@ -9,7 +9,7 @@ namespace Api_Game.Interfaces
         IEnumerable<ClasificationSettings> TcseSettings { get; }
 
         IEnumerable<ClasificationSettings> EsrbSettings { get; }
-        
+
         Tcse ConvertToTcse(Esrb esrb);
 
         Esrb ConvertToEsrb(Esrb esrb);

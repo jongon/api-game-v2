@@ -15,7 +15,7 @@ namespace Api_Game.Services
         public IEnumerable<ClasificationSettings> EsrbSettings { get; }
 
         public ClasificationTableService(
-            IEnumerable<ClasificationSettings> tcseSettings, 
+            IEnumerable<ClasificationSettings> tcseSettings,
             IEnumerable<ClasificationSettings> esrbSettings)
         {
             TcseSettings = tcseSettings;
@@ -78,6 +78,7 @@ namespace Api_Game.Services
                         Description = setting.Description,
                         Image = setting.Image.Normal
                     };
+
                 case EsrbEnum.EC:
                     setting = EsrbSettings.First(x => findExpression(x, EsrbEnum.EC));
                     return new Esrb
@@ -87,6 +88,7 @@ namespace Api_Game.Services
                         Description = setting.Description,
                         Image = setting.Image.Normal
                     };
+
                 case EsrbEnum.E:
                     setting = EsrbSettings.First(x => findExpression(x, EsrbEnum.E));
                     return new Esrb
@@ -96,6 +98,7 @@ namespace Api_Game.Services
                         Description = setting.Description,
                         Image = setting.Image.Normal
                     };
+
                 case EsrbEnum.E10:
                     setting = EsrbSettings.First(x => findExpression(x, EsrbEnum.E10));
                     return new Esrb
@@ -105,6 +108,7 @@ namespace Api_Game.Services
                         Description = setting.Description,
                         Image = setting.Image.Normal
                     };
+
                 case EsrbEnum.T:
                     setting = EsrbSettings.First(x => findExpression(x, EsrbEnum.T));
                     return new Esrb
@@ -114,6 +118,7 @@ namespace Api_Game.Services
                         Description = setting.Description,
                         Image = setting.Image.Normal
                     };
+
                 case EsrbEnum.M:
                     setting = EsrbSettings.First(x => findExpression(x, EsrbEnum.M));
                     return new Esrb
@@ -123,6 +128,7 @@ namespace Api_Game.Services
                         Description = setting.Description,
                         Image = setting.Image.Normal
                     };
+
                 case EsrbEnum.AO:
                     setting = EsrbSettings.First(x => findExpression(x, EsrbEnum.AO));
                     return new Esrb
@@ -132,7 +138,6 @@ namespace Api_Game.Services
                         Description = setting.Description,
                         Image = setting.Image.Normal
                     };
-
 
                 default:
                     setting = TcseSettings.First(x => findExpression(x, EsrbEnum.RP));
@@ -146,7 +151,7 @@ namespace Api_Game.Services
                     };
             }
         }
-    
+
         private Tcse FillTcseData(TcseEnum tcseEnum)
         {
             Func<ClasificationSettings, TcseEnum, bool> findExpression = (x, y) => x.Id == (int)y;

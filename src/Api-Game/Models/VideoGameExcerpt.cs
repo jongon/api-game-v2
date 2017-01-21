@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Api_Game.Models
 {
@@ -7,7 +7,7 @@ namespace Api_Game.Models
     {
         public VideoGameExcerpt()
         {
-            Publishers = new HashSet<dynamic>();    
+            Publishers = new HashSet<dynamic>();
         }
 
         [JsonProperty(PropertyName = "id")]
