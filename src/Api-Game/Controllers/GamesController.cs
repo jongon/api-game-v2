@@ -42,9 +42,9 @@ namespace Api_Game.Controllers
 
             foreach (var videoGame in videoGames)
             {
-                if (videoGame.Esrb != null)
-                    videoGame.Tcse = _clasificationTableService.ConvertToTcse(videoGame.Esrb);
-
+                if (videoGame.Esrb == null) continue;
+                videoGame.Tcse = _clasificationTableService.ConvertToTcse(videoGame.Esrb);
+                videoGame.Esrb = _clasificationTableService.ConvertToEsrb(videoGame.Esrb);
             }
 
             return videoGames;
@@ -65,8 +65,9 @@ namespace Api_Game.Controllers
             if (videoGame.Pegi != null)
                 videoGame.Pegi.Synopsis = await _translatorService.TranslateToSpanishAsync(videoGame.Pegi.Synopsis);
 
-            if (videoGame.Esrb != null)
-                videoGame.Tcse = _clasificationTableService.ConvertToTcse(videoGame.Esrb);
+            if (videoGame.Esrb == null) return videoGame;
+            videoGame.Tcse = _clasificationTableService.ConvertToTcse(videoGame.Esrb);
+            videoGame.Esrb = _clasificationTableService.ConvertToEsrb(videoGame.Esrb);
 
             return videoGame;
         }

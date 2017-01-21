@@ -11,5 +11,7 @@ namespace Api_Game.Interfaces
         IEnumerable<ClasificationSettings> EsrbSettings { get; }
         
         Tcse ConvertToTcse(Esrb esrb);
+
+        Esrb ConvertToEsrb(Esrb esrb);
     }
 }

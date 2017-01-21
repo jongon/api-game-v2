@@ -2,9 +2,9 @@
 {
     public enum EsrbEnum
     {
-        Rp = 1,
+        RP = 1,
 
-        Ec = 2,
+        EC = 2,
 
         E = 3,
 
