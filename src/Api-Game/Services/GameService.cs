@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace Api_Game.Services
 {
@@ -42,7 +43,7 @@ namespace Api_Game.Services
             return videoGame;
         }
 
-        public async Task<IEnumerable<VideoGameName>> GetGamesAsync(string term, Paging paging)
+        public async Task<IEnumerable<VideoGameExcerpt>> GetGamesAsync(string term, Paging paging)
         {
             paging.Limit = paging.Limit ?? 10;
             paging.Offset = paging.Offset ?? 0;
@@ -60,15 +61,45 @@ namespace Api_Game.Services
             };
 
             var uri = $"{Settings.ApiUri}/{Settings.Routes["Games"]}/";
-            var result = await GameHttpClient.GetAsync<VideoGameName>(uri, Settings.Headers, parameters);
+            var result = await GameHttpClient.GetAsync<VideoGameExcerpt>(uri, Settings.Headers, parameters);
             return result;
         }
 
-        public async Task<Company> GetPublisherByIdAsync(long publisherId)
+        public async Task<IEnumerable<VideoGameExcerpt>> GetGamesWithExcerpt(string term, Paging paging)
+        {
+            paging.Limit = paging.Limit ?? 10;
+            paging.Offset = paging.Offset ?? 0;
+            paging.OrderParam = paging.OrderParam ?? "popularity";
+
+            var orderString = paging.OrderAsc ? "asc" : "desc";
+
+            var parameters = new Dictionary<string, string>
+            {
+                { "fields", "name,publishers,esrb" },
+                { "limit" , paging.Limit.ToString() },
+                { "offset", paging.Offset.ToString() },
+                { "order", $"{paging.OrderParam}:{orderString}" },
+                { "search", term }
+            };
+
+            var uri = $"{Settings.ApiUri}/{Settings.Routes["Games"]}/";
+            var results = (await GameHttpClient.GetAsync<VideoGameExcerpt>(uri, Settings.Headers, parameters)).ToList();
+
+            foreach (var result in results)
+            {
+                var publisherIds = JsonConvert.DeserializeObject<IEnumerable<long>>(JsonConvert.SerializeObject(result.Publishers));
+                var publishers = GetPublishersAsync(publisherIds, "id,name");
+                result.Publishers = await publishers;
+            }
+
+            return results;
+        }
+
+        public async Task<Company> GetPublisherByIdAsync(long publisherId, string fields = "*")
         {
             var parameters = new Dictionary<string, string>
             {
-                { "fields", "*" }
+                { "fields", fields }
             };
 
             var uri = $"{Settings.ApiUri}/{Settings.Routes["Publishers"]}/{publisherId}/";
@@ -76,11 +107,11 @@ namespace Api_Game.Services
             return (await result).FirstOrDefault();
         }
 
-        public async Task<Company> GetDeveloperByIdAsync(long developerId)
+        public async Task<Company> GetDeveloperByIdAsync(long developerId, string fields = "*")
         {
             var parameters = new Dictionary<string, string>
             {
-                { "fields", "*" }
+                { "fields", fields }
             };
 
             var uri = $"{Settings.ApiUri}/{Settings.Routes["Developers"]}/{developerId}/";
@@ -88,9 +119,9 @@ namespace Api_Game.Services
             return (await result).FirstOrDefault();
         }
 
-        public async Task<IEnumerable<Company>> GetDevelopersAsync(IEnumerable<long> developerIds)
+        public async Task<IEnumerable<Company>> GetDevelopersAsync(IEnumerable<long> developerIds, string fields = "*")
         {
-            var tasks = developerIds.Select(GetDeveloperByIdAsync).ToList();
+            var tasks = developerIds.Select(developerId => GetDeveloperByIdAsync(developerId, fields)).ToList();
 
             var developers = new List<Company>();
             foreach (var task in tasks)
@@ -101,9 +132,9 @@ namespace Api_Game.Services
             return developers;
         }
 
-        public async Task<IEnumerable<Company>> GetPublishersAsync(IEnumerable<long> publisherIds)
+        public async Task<IEnumerable<Company>> GetPublishersAsync(IEnumerable<long> publisherIds, string fields = "*")
         {
-            var tasks = publisherIds.Select(GetPublisherByIdAsync).ToList();
+            var tasks = publisherIds.Select(publisherId => GetPublisherByIdAsync(publisherId, fields)).ToList();
 
             var publishers = new List<Company>();
             foreach (var task in tasks)

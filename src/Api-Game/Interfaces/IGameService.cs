@@ -12,14 +12,16 @@ namespace Api_Game.Interfaces
 
         Task<VideoGame> GetGameByIdAsync(long gameId);
 
-        Task<IEnumerable<VideoGameName>> GetGamesAsync(string term, Paging paging);
+        Task<IEnumerable<VideoGameExcerpt>> GetGamesAsync(string term, Paging paging);
 
-        Task<Company> GetPublisherByIdAsync(long publisherId);
+        Task<IEnumerable<VideoGameExcerpt>> GetGamesWithExcerpt(string term, Paging paging);
 
-        Task<Company> GetDeveloperByIdAsync(long developerId);
+        Task<Company> GetPublisherByIdAsync(long publisherId, string fields = "*");
 
-        Task<IEnumerable<Company>> GetDevelopersAsync(IEnumerable<long> developerIds);
+        Task<Company> GetDeveloperByIdAsync(long developerId, string fields = "*");
 
-        Task<IEnumerable<Company>> GetPublishersAsync(IEnumerable<long> publisherIds);
+        Task<IEnumerable<Company>> GetDevelopersAsync(IEnumerable<long> developerIds, string fields = "*");
+
+        Task<IEnumerable<Company>> GetPublishersAsync(IEnumerable<long> publisherIds, string fields = "*");
     }
 }

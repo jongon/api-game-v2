@@ -1,8 +1,10 @@
-﻿using Api_Game.Interfaces;
+﻿using System;
+using Api_Game.Interfaces;
 using Api_Game.Models;
 using Api_Game.Utils;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Api_Game.Controllers
@@ -27,10 +29,25 @@ namespace Api_Game.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<VideoGameName>> Get(string term, Paging paging)
+        public async Task<IEnumerable<VideoGameExcerpt>> Get(string term, Paging paging)
         {
             var videoGames = _gameService.GetGamesAsync(term, paging);
             return await videoGames;
+        }
+
+        [HttpGet("excerpt")]
+        public async Task<IEnumerable<VideoGameExcerpt>> GetWithExcerpt(string term, Paging paging)
+        {
+            var videoGames = (await _gameService.GetGamesWithExcerpt(term, paging)).ToList();
+
+            foreach (var videoGame in videoGames)
+            {
+                if (videoGame.Esrb != null)
+                    videoGame.Tcse = _clasificationTableService.ConvertToTcse(videoGame.Esrb);
+
+            }
+
+            return videoGames;
         }
 
         // GET api/games/5

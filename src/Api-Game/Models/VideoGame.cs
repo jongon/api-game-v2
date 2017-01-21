@@ -5,6 +5,13 @@ namespace Api_Game.Models
 {
     public class VideoGame
     {
+        public VideoGame()
+        {
+            Developers = new HashSet<dynamic>();
+            Publishers = new HashSet<dynamic>();
+            ReleaseDates = new HashSet<ReleaseDate>();
+        }
+
         [JsonProperty(PropertyName = "id")]
         public long VideoGameId { get; set; }
 
@@ -23,6 +30,8 @@ namespace Api_Game.Models
 
         //It Could be long or Company
         public IEnumerable<dynamic> Publishers { get; set; }
+
+        public IEnumerable<ReleaseDate> ReleaseDates { get; set; }
 
         public Image Cover { get; set; }
 

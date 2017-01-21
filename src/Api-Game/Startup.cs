@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.IO.Compression;
+using Newtonsoft.Json;
 
 namespace Api_Game
 {
@@ -33,7 +34,8 @@ namespace Api_Game
             services.AddCors();
 
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(options => options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore);
 
             //Configure Compression level
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
