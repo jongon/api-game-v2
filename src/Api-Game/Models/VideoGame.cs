@@ -33,6 +33,8 @@ namespace Api_Game.Models
 
         public IEnumerable<ReleaseDate> ReleaseDates { get; set; }
 
+        public IEnumerable<Image> Screenshots { get; set; }
+
         public Image Cover { get; set; }
 
         public Esrb Esrb { get; set; }
