@@ -108,11 +108,18 @@ namespace Api_Game.Services
             var uri = $"{Settings.ApiUri}/{Settings.Routes["Games"]}/";
             var results = (await GameHttpClient.GetAsync<VideoGameExcerpt>(uri, Settings.Headers, parameters)).ToList();
 
+            var tasks = new Dictionary<VideoGameExcerpt, Task<IEnumerable<Company>>>();
             foreach (var result in results)
             {
                 var publisherIds = JsonConvert.DeserializeObject<IEnumerable<long>>(JsonConvert.SerializeObject(result.Publishers));
-                var publishers = GetPublishersAsync(publisherIds, "id,name");
-                result.Publishers = await publishers;
+                tasks.Add(result, GetPublishersAsync(publisherIds, "id,name"));
+            }
+
+            await Task.WhenAll(tasks.Values);
+
+            foreach (var result in tasks)
+            {
+                result.Key.Publishers = result.Value.Result;
             }
 
             return results;
@@ -168,26 +175,18 @@ namespace Api_Game.Services
 
         public async Task<IEnumerable<Company>> GetDevelopersAsync(IEnumerable<long> developerIds, string fields = "*")
         {
-            var tasks = developerIds.Select(developerId => GetDeveloperByIdAsync(developerId, fields)).ToList();
+            var tasks = developerIds.Select(developerId => GetDeveloperByIdAsync(developerId, fields));
 
-            var developers = new List<Company>();
-            foreach (var task in tasks)
-            {
-                developers.Add(await task);
-            }
+            var developers = await Task.WhenAll(tasks);
 
             return developers;
         }
 
         public async Task<IEnumerable<Company>> GetPublishersAsync(IEnumerable<long> publisherIds, string fields = "*")
         {
-            var tasks = publisherIds.Select(publisherId => GetPublisherByIdAsync(publisherId, fields)).ToList();
+            var tasks = publisherIds.Select(publisherId => GetPublisherByIdAsync(publisherId, fields));
 
-            var publishers = new List<Company>();
-            foreach (var task in tasks)
-            {
-                publishers.Add(await task);
-            }
+            var publishers = await Task.WhenAll(tasks);
 
             return publishers;
         }
