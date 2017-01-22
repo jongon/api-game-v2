@@ -115,8 +115,6 @@ namespace Api_Game.Services
                 tasks.Add(result, GetPublishersAsync(publisherIds, "id,name"));
             }
 
-            await Task.WhenAll(tasks.Values);
-
             foreach (var result in tasks)
             {
                 result.Key.Publishers = result.Value.Result;
