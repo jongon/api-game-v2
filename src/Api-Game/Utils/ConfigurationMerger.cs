@@ -11,18 +11,19 @@ namespace Api_Game.Utils
         {
             var tcseList = tcseSettings as IList<ClasificationSettings> ?? tcseSettings.ToList();
             var baseUri = new Uri(storageSettings.Url);
+            var absolutePath = baseUri.AbsolutePath;
 
             foreach (var tcseSetting in tcseList)
             {
                 tcseSetting.Image.Normal =
                     string.IsNullOrWhiteSpace(tcseSetting.Image.Normal) ?
                     tcseSetting.Image.Normal :
-                    new Uri(baseUri, tcseSetting.Image.Normal).AbsoluteUri;
+                    new Uri(baseUri, $"{absolutePath}/{tcseSetting.Image.Normal}").AbsoluteUri;
 
                 tcseSetting.Image.Thumbnail =
                     string.IsNullOrWhiteSpace(tcseSetting.Image.Thumbnail) ?
                     tcseSetting.Image.Thumbnail :
-                    new Uri(baseUri, tcseSetting.Image.Thumbnail).AbsoluteUri;
+                    new Uri(baseUri, $"{absolutePath}/{tcseSetting.Image.Thumbnail}").AbsoluteUri;
             }
 
             return tcseList;
