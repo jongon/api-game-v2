@@ -111,13 +111,14 @@ namespace Api_Game.Services
             var tasks = new Dictionary<VideoGameExcerpt, Task<IEnumerable<Company>>>();
             foreach (var result in results)
             {
+                //Podría sacar el parseo a json de está linea para así quitar el foreach del llamado de las tareas
                 var publisherIds = JsonConvert.DeserializeObject<IEnumerable<long>>(JsonConvert.SerializeObject(result.Publishers));
                 tasks.Add(result, GetPublishersAsync(publisherIds, "id,name"));
             }
 
             foreach (var result in tasks)
             {
-                result.Key.Publishers = result.Value.Result;
+                result.Key.Publishers = await result.Value;
             }
 
             return results;
