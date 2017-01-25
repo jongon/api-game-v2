@@ -55,10 +55,10 @@ namespace Api_Game.Controllers
         {
             var videoGame = await _gameService.GetGameByIdAsync(id);
 
-            if (string.IsNullOrWhiteSpace(videoGame.Summary))
+            if (!string.IsNullOrWhiteSpace(videoGame.Summary))
                 videoGame.Summary = await _translatorService.TranslateToSpanishAsync(videoGame.Summary);
 
-            if (string.IsNullOrWhiteSpace(videoGame.Storyline))
+            if (!string.IsNullOrWhiteSpace(videoGame.Storyline))
                 videoGame.Storyline = await _translatorService.TranslateToSpanishAsync(videoGame.Storyline);
 
             if (videoGame.Pegi != null)
