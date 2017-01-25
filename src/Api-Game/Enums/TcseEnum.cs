@@ -11,6 +11,8 @@ namespace Api_Game.Enums
 
         UM = 3,
 
-        EC = 4
+        EC = 4,
+
+        NI = 5
     }
 }

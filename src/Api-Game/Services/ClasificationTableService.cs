@@ -48,7 +48,7 @@ namespace Api_Game.Services
                     break;
 
                 default:
-                    tcseRating = TcseEnum.EC;
+                    tcseRating = TcseEnum.NI;
                     break;
             }
 
@@ -140,10 +140,10 @@ namespace Api_Game.Services
                     };
 
                 default:
-                    setting = TcseSettings.First(x => findExpression(x, EsrbEnum.RP));
+                    setting = TcseSettings.First(x => findExpression(x, EsrbEnum.NI));
                     return new Esrb
                     {
-                        Rating = EsrbEnum.RP,
+                        Rating = EsrbEnum.NI,
                         Title = setting.Title,
                         Description = setting.Description,
                         Image = setting.Image.Normal,
