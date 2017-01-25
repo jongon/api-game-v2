@@ -61,7 +61,7 @@ namespace Api_Game.Controllers
             if (!string.IsNullOrWhiteSpace(videoGame.Storyline))
                 videoGame.Storyline = await _translatorService.TranslateToSpanishAsync(videoGame.Storyline);
 
-            if (videoGame.Pegi != null)
+            if (videoGame.Pegi?.Synopsis != null)
                 videoGame.Pegi.Synopsis = await _translatorService.TranslateToSpanishAsync(videoGame.Pegi.Synopsis);
 
             if (videoGame.Genres.Any())
@@ -76,7 +76,6 @@ namespace Api_Game.Controllers
                 videoGame.Genres = genreList;
             }
 
-            if (videoGame.Esrb == null) return videoGame;
             videoGame.Tcse = _clasificationTableService.ConvertToTcse(videoGame.Esrb);
             videoGame.Esrb = _clasificationTableService.ConvertToEsrb(videoGame.Esrb);
 

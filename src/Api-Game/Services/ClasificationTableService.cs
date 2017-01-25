@@ -24,6 +24,7 @@ namespace Api_Game.Services
 
         public Tcse ConvertToTcse(Esrb esrb)
         {
+            esrb = esrb ?? new Esrb {Rating = EsrbEnum.NI};
             TcseEnum tcseRating;
 
             switch (esrb.Rating)
@@ -59,6 +60,7 @@ namespace Api_Game.Services
 
         public Esrb ConvertToEsrb(Esrb esrb)
         {
+            esrb = esrb ?? new Esrb { Rating = EsrbEnum.NI };
             return FillEsrbData(esrb.Rating);
         }
 
@@ -140,7 +142,7 @@ namespace Api_Game.Services
                     };
 
                 default:
-                    setting = TcseSettings.First(x => findExpression(x, EsrbEnum.NI));
+                    setting = EsrbSettings.First(x => findExpression(x, EsrbEnum.NI));
                     return new Esrb
                     {
                         Rating = EsrbEnum.NI,
@@ -204,10 +206,10 @@ namespace Api_Game.Services
                     };
 
                 default:
-                    setting = TcseSettings.First(x => findExpression(x, TcseEnum.EC));
+                    setting = TcseSettings.First(x => findExpression(x, TcseEnum.NI));
                     return new Tcse
                     {
-                        Rating = TcseEnum.EC,
+                        Rating = TcseEnum.NI,
                         Title = setting.Title,
                         Description = setting.Description,
                         Image = setting.Image.Normal,
