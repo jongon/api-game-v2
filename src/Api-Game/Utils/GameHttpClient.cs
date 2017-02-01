@@ -8,8 +8,10 @@ namespace Api_Game.Utils
 {
     public static class GameHttpClient
     {
-        public static async Task<IEnumerable<T>> GetAsync<T>(string uri, Dictionary<string, string> headers, Dictionary<string, string> parameters)
+        public static async Task<IList<T>> GetAsync<T>(string uri, Dictionary<string, string> headers, Dictionary<string, string> parameters)
         {
+            string responseString;
+
             using (var client = new HttpClient())
             {
                 foreach (var header in headers)
@@ -17,16 +19,17 @@ namespace Api_Game.Utils
 
                 var completeUri = QueryHelpers.AddQueryString(uri, parameters);
                 var response = await client.GetAsync(completeUri);
-                var responseString = await response.Content.ReadAsStringAsync();
-                var responseJson = JsonConvert.DeserializeObject<IEnumerable<T>>(
-                    responseString,
-                     new JsonSerializerSettings()
-                     {
-                         ContractResolver = new UnderscorePropertyNamesContractResolver()
-                     });
-
-                return responseJson;
+                responseString = await response.Content.ReadAsStringAsync();
             }
+
+            var responseJson = JsonConvert.DeserializeObject<IList<T>>(
+                responseString,
+                    new JsonSerializerSettings()
+                    {
+                        ContractResolver = new UnderscorePropertyNamesContractResolver()
+                    });
+
+            return responseJson;
         }
     }
 }

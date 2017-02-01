@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
+using System.Collections;
+using System.Diagnostics;
+using System.Threading;
 
 namespace Api_Game.Services
 {
@@ -90,6 +93,9 @@ namespace Api_Game.Services
 
         public async Task<IEnumerable<VideoGameExcerpt>> GetGamesWithExcerpt(string term, Paging paging)
         {
+            Func<IEnumerable<dynamic>, IList<long>> publisherParser =
+                x => JsonConvert.DeserializeObject<IList<long>>(JsonConvert.SerializeObject(x));
+
             paging.Limit = paging.Limit ?? 10;
             paging.Offset = paging.Offset ?? 0;
             paging.OrderParam = paging.OrderParam ?? "popularity";
@@ -106,22 +112,26 @@ namespace Api_Game.Services
             };
 
             var uri = $"{Settings.ApiUri}/{Settings.Routes["Games"]}/";
-            var results = (await GameHttpClient.GetAsync<VideoGameExcerpt>(uri, Settings.Headers, parameters)).ToList();
+            var results = await GameHttpClient.GetAsync<VideoGameExcerpt>(uri, Settings.Headers, parameters);
 
-            var tasks = new Dictionary<VideoGameExcerpt, Task<IEnumerable<Company>>>();
+            var tasks = new List<Task<VideoGameExcerpt>>();
+
+            // ReSharper disable once LoopCanBeConvertedToQuery
             foreach (var result in results)
             {
-                //Podría sacar el parseo a json de está linea para así quitar el foreach del llamado de las tareas
-                var publisherIds = JsonConvert.DeserializeObject<IEnumerable<long>>(JsonConvert.SerializeObject(result.Publishers));
-                tasks.Add(result, GetPublishersAsync(publisherIds, "id,name"));
+                var task =
+                    Task.Run(() => publisherParser(result.Publishers))
+                        .ContinueWith(publisherIds => GetPublishersAsync(publisherIds.Result, "id,name").Result)
+                        .ContinueWith(p =>
+                        {
+                            result.Publishers = p.Result;
+                            return result;
+                        });
+
+                tasks.Add(task);
             }
 
-            foreach (var result in tasks)
-            {
-                result.Key.Publishers = await result.Value;
-            }
-
-            return results;
+            return await Task.WhenAll(tasks);
         }
 
         public async Task<Company> GetPublisherByIdAsync(long publisherId, string fields = "*")
@@ -132,8 +142,8 @@ namespace Api_Game.Services
             };
 
             var uri = $"{Settings.ApiUri}/{Settings.Routes["Publishers"]}/{publisherId}/";
-            var result = GameHttpClient.GetAsync<Company>(uri, Settings.Headers, parameters);
-            return (await result).FirstOrDefault();
+            var result = await GameHttpClient.GetAsync<Company>(uri, Settings.Headers, parameters);
+            return result.FirstOrDefault();
         }
 
         public async Task<Company> GetDeveloperByIdAsync(long developerId, string fields = "*")
@@ -189,6 +199,5 @@ namespace Api_Game.Services
 
             return publishers;
         }
-
     }
 }

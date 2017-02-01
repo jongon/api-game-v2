@@ -37,16 +37,18 @@ namespace Api_Game.Controllers
         [HttpGet("excerpt")]
         public async Task<IEnumerable<VideoGameExcerpt>> GetWithExcerpt(string term, Paging paging)
         {
-            var videoGames = (await _gameService.GetGamesWithExcerpt(term, paging)).ToList();
+            var videoGames = await _gameService.GetGamesWithExcerpt(term, paging);
 
-            foreach (var videoGame in videoGames)
+            var videoGameExcerpts = videoGames as IList<VideoGameExcerpt> ?? videoGames.ToList();
+
+            foreach (var videoGame in videoGameExcerpts)
             {
                 if (videoGame.Esrb == null) continue;
                 videoGame.Tcse = _clasificationTableService.ConvertToTcse(videoGame.Esrb);
                 videoGame.Esrb = _clasificationTableService.ConvertToEsrb(videoGame.Esrb);
             }
 
-            return videoGames;
+            return videoGameExcerpts;
         }
 
         // GET api/games/5
