@@ -154,8 +154,8 @@ namespace Api_Game.Services
             };
 
             var uri = $"{Settings.ApiUri}/{Settings.Routes["Developers"]}/{developerId}/";
-            var result = GameHttpClient.GetAsync<Company>(uri, Settings.Headers, parameters);
-            return (await result).FirstOrDefault();
+            var result = await GameHttpClient.GetAsync<Company>(uri, Settings.Headers, parameters);
+            return result.FirstOrDefault();
         }
 
         public async Task<Platform> GetPlatformByIdAsync(long platformId, string fields = "*")
