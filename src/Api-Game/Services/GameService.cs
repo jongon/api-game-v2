@@ -112,8 +112,8 @@ namespace Api_Game.Services
             };
 
             var uri = $"{Settings.ApiUri}/{Settings.Routes["Games"]}/";
-            var results = await GameHttpClient.GetAsync<VideoGameExcerpt>(uri, Settings.Headers, parameters);
 
+            var results = await GameHttpClient.GetAsync<VideoGameExcerpt>(uri, Settings.Headers, parameters);
             var tasks = new List<Task<VideoGameExcerpt>>();
 
             // ReSharper disable once LoopCanBeConvertedToQuery
@@ -186,18 +186,14 @@ namespace Api_Game.Services
         {
             var tasks = developerIds.Select(developerId => GetDeveloperByIdAsync(developerId, fields));
 
-            var developers = await Task.WhenAll(tasks);
-
-            return developers;
+            return await Task.WhenAll(tasks);
         }
 
         public async Task<IEnumerable<Company>> GetPublishersAsync(IEnumerable<long> publisherIds, string fields = "*")
         {
             var tasks = publisherIds.Select(publisherId => GetPublisherByIdAsync(publisherId, fields));
 
-            var publishers = await Task.WhenAll(tasks);
-
-            return publishers;
+            return await Task.WhenAll(tasks);
         }
     }
 }
