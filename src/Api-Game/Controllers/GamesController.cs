@@ -37,7 +37,7 @@ namespace Api_Game.Controllers
         [HttpGet("Test")]
         public IActionResult Test()
         {
-            return Ok(new { Test = true });
+            return Ok(new { Test = "true" });
         }
 
         [HttpGet("excerpt")]
