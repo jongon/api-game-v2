@@ -34,12 +34,6 @@ namespace Api_Game.Controllers
             return await videoGames;
         }
 
-        [HttpGet("Test")]
-        public string Test()
-        {
-            return "Hola";
-        }
-
         [HttpGet("excerpt")]
         public async Task<IEnumerable<VideoGameExcerpt>> GetWithExcerpt(string term, Paging paging)
         {
