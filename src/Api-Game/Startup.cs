@@ -41,11 +41,11 @@ namespace Api_Game
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
 
             //Add Response compression services
-            services.AddResponseCompression(options =>
-            {
-                options.EnableForHttps = true;
-                options.Providers.Add<GzipCompressionProvider>();
-            });
+            //services.AddResponseCompression(options =>
+            //{
+            //    options.EnableForHttps = true;
+            //    options.Providers.Add<GzipCompressionProvider>();
+            //});
 
             // Add our Config object so it can be injected
             var gameApiSettings = Configuration.GetSection(nameof(GameApiSettings)).Get<GameApiSettings>();
@@ -70,7 +70,7 @@ namespace Api_Game
             loggerFactory.AddDebug();
 
             //Add Middleware
-            app.UseResponseCompression();
+            //app.UseResponseCompression();
 
             app.UseCors(builder => builder.AllowAnyOrigin());
             app.UseMvc();
